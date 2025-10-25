@@ -3,7 +3,8 @@ const express = require("express");
 const fetch = require("node-fetch"); // Import node-fetch
 const app = express();
 
-app.use(express.static("public")); // Serves your frontend (public folder)
+// Serves your frontend (public folder) and disables all caching
+app.use(express.static("public", { etag: false, maxAge: 0 }));
 app.use(express.json()); // Lets us read JSON from requests
 
 // --- 2. Get the Secret Key ---
@@ -210,4 +211,5 @@ function parseGrammar(originalText, data) {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Your app is listening on port ${port}`);
+
 });
