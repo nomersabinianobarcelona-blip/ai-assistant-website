@@ -1,20 +1,17 @@
-/* --- Import a clean, professional font --- */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
-/* --- Base Setup --- */
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: 'Lato', sans-serif;
-  background-color: #f4f7f6; /* Light gray background */
+  background-color: #f4f7f6; 
   color: #333;
   margin: 0;
   padding: 2rem;
 }
 
-/* --- Main App Container (the "Card") --- */
 .main-container {
   max-width: 800px;
   margin: 0 auto;
@@ -25,16 +22,14 @@ body {
   border: 1px solid #e0e0e0;
 }
 
-/* --- Header --- */
 h1 {
   text-align: center;
-  color: #0056b3; /* A nice, deep blue */
+  color: #0056b3; 
   margin-top: 0;
   margin-bottom: 2rem;
   font-weight: 700;
 }
 
-/* --- Text Areas --- */
 .textarea-container {
   display: flex;
   flex-direction: column;
@@ -51,7 +46,7 @@ textarea {
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  resize: vertical; /* Allow user to resize vertically */
+  resize: vertical; 
 }
 
 #input-text:focus,
@@ -62,27 +57,26 @@ textarea {
 }
 
 #output-text {
-  background-color: #fafafa; /* Slightly different bg for output */
+  background-color: #fafafa; 
   color: #222;
 }
 
-/* --- Button Group --- */
 .button-group {
   display: flex;
-  flex-wrap: wrap; /* Allows buttons to stack on small screens */
+  flex-wrap: wrap; 
   gap: 10px;
   margin-bottom: 1.5rem;
 }
 
 .button-group button {
-  flex-grow: 1; /* Make buttons share space */
-  flex-basis: 150px; /* Minimum width for each button */
+  flex-grow: 1; 
+  flex-basis: 150px; 
   
   font-family: 'Lato', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: #ffffff;
-  background-color: #0069d9; /* A brighter blue for action */
+  background-color: #0069d9; 
   border: none;
   padding: 0.8rem 1rem;
   border-radius: 8px;
@@ -91,25 +85,23 @@ textarea {
 }
 
 .button-group button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3; 
 }
 
 .button-group button:active {
   transform: scale(0.98);
 }
 
-/* --- Special Button (Copy) --- */
 #copy-btn {
-  background-color: #28a745; /* Green for success/copy */
+  background-color: #28a745; 
 }
 
 #copy-btn:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #218838; 
 }
 
-/* --- Status Message --- */
 .status {
   text-align: center;
-  min-height: 1.2em; /* Prevents layout jump when text appears */
+  min-height: 1.2em; 
   font-weight: 700;
 }
