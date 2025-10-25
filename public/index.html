@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Assistant</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="container">
+    <h2>✨ AI Assistant</h2>
+    
+    <div class="input-output">
+      <div class="io-box">
+        <label for="input-text">Input Text</label>
+        <textarea id="input-text" rows="8"></textarea>
+      </div>
+      <div class="io-box">
+        <label for="output-text">AI Result</label>
+        <textarea id="output-text" rows="8" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button id="summarize-btn">Summarize</button>
+      <button id="fix-btn">Fix Grammar</button>
+      <button id="fix-summarize-btn" class="special-btn">Fix & Summarize</button>
+      <button id="detect-ai-btn" class="warning-btn">Detect AI</button>
+    </div>
+    
+    <button id="copy-btn">Copy Result</button>
+    
+    <hr>
+    
+    <div class="settings">
+      <h3>Settings</h3>
+      <label for="api-key">Your API Token (Hugging Face):</label>
+      <input type="password" id="api-key" placeholder="Enter your hf_... token">
+      <button id="save-key-btn">Save Key</button>
+      <div id="status"></div>
+    </div>
+    
+  </div>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
