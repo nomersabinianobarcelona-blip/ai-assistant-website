@@ -1,182 +1,115 @@
-/* --- Global Styles --- */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background-color: #f4f7f6;
-  color: #333;
-  margin: 0;
-  padding: 12px;
-  min-width: 350px;
-}
+/* --- Import a clean, professional font --- */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
 
-/* Use a better box-sizing model */
+/* --- Base Setup --- */
 * {
   box-sizing: border-box;
 }
 
-/* --- Main Container --- */
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111;
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #f4f7f6; /* Light gray background */
+  color: #333;
   margin: 0;
+  padding: 2rem;
+}
+
+/* --- Main App Container (the "Card") --- */
+.main-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+/* --- Header --- */
+h1 {
   text-align: center;
+  color: #0056b3; /* A nice, deep blue */
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 700;
 }
 
-/* --- Input/Output Area --- */
-.input-output {
+/* --- Text Areas --- */
+.textarea-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.io-box {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-label {
-  font-weight: 500;
-  font-size: 0.9rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
+  min-height: 180px;
+  padding: 1rem;
   border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  resize: vertical;
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical; /* Allow user to resize vertically */
 }
 
-textarea#output-text {
-  background-color: #f9f9f9;
+#input-text:focus,
+#output-text:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+}
+
+#output-text {
+  background-color: #fafafa; /* Slightly different bg for output */
   color: #222;
 }
 
-/* --- Button Styling --- */
-button {
-  padding: 10px 14px;
-  font-size: 0.9rem;
-  font-weight: 600;
+/* --- Button Group --- */
+.button-group {
+  display: flex;
+  flex-wrap: wrap; /* Allows buttons to stack on small screens */
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.button-group button {
+  flex-grow: 1; /* Make buttons share space */
+  flex-basis: 150px; /* Minimum width for each button */
+  
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #0069d9; /* A brighter blue for action */
   border: none;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  background-color: #fff;
-  color: #333;
-  border: 1px solid #ccc;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-button:hover {
-  background-color: #f9f9f9;
-  border-color: #bbb;
+.button-group button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
-button:active {
-  box-shadow: none;
-  transform: translateY(1px);
+.button-group button:active {
+  transform: scale(0.98);
 }
 
-/* Group for the main AI actions */
-.button-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-/* Special button spans both columns */
-.button-group .special-btn {
-  grid-column: 1 / -1; /* Span from first line to last line */
-  background-color: #007aff;
-  color: white;
-  border-color: #007aff;
-}
-
-.button-group .special-btn:hover {
-  background-color: #005ecb;
-  border-color: #005ecb;
-}
-
-/* --- THIS IS NEW --- */
-/* Warning button for AI detection */
-.button-group .warning-btn {
-  background-color: #ff9500; /* Orange */
-  color: white;
-  border-color: #ff9500;
-}
-
-.button-group .warning-btn:hover {
-  background-color: #d97e00;
-  border-color: #d97e00;
-}
-/* --- END OF NEW --- */
-
-
-/* Copy button */
+/* --- Special Button (Copy) --- */
 #copy-btn {
-  background-color: #e5e5e5;
-  border-color: #ccc;
+  background-color: #28a745; /* Green for success/copy */
 }
+
 #copy-btn:hover {
-  background-color: #dcdcdc;
+  background-color: #218838; /* Darker green on hover */
 }
 
-
-/* --- Settings Section --- */
-hr {
-  border: none;
-  border-top: 1px solid #e0e0e0;
-  margin: 8px 0;
-}
-
-.settings {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.settings h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.settings label {
-  font-size: 0.85rem;
-}
-
-.settings input[type="password"] {
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  background-color: #fff;
-}
-
-.settings #save-key-btn {
-  background-color: #34c759;
-  color: white;
-  border: none;
-  padding: 8px;
-}
-
-.settings #save-key-btn:hover {
-  background-color: #2ca54a;
-}
-
-#status {
-  font-size: 0.85rem;
+/* --- Status Message --- */
+.status {
   text-align: center;
-  height: 1.2em; /* Reserve space so layout doesn't jump */
+  min-height: 1.2em; /* Prevents layout jump when text appears */
+  font-weight: 700;
 }
