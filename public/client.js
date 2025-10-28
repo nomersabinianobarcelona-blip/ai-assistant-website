@@ -8,47 +8,58 @@ const copyBtn = document.getElementById("copy-btn");
 const inputText = document.getElementById("input-text");
 const outputText = document.getElementById("output-text");
 
-// NEW: Get the status and loading message elements
 const statusMessage = document.getElementById("status-message");
 const loadingMessage = document.getElementById("loading-message");
 
-// --- Event Listeners for Buttons ---
+// --- Event Listeners for Buttons (with safety checks) ---
 
-summarizeBtn.addEventListener("click", () => {
-  const text = inputText.value;
-  if (text) {
-    callApi("summarize", text);
-  }
-});
+// These buttons only exist on the "GmAIl Helper" page
+if (summarizeBtn) {
+  summarizeBtn.addEventListener("click", () => {
+    const text = inputText.value;
+    if (text) {
+      callApi("summarize", text);
+    }
+  });
+}
 
-fixGrammarBtn.addEventListener("click", () => {
-  const text = inputText.value;
-  if (text) {
-    callApi("fix-grammar", text);
-  }
-});
+if (fixGrammarBtn) {
+  fixGrammarBtn.addEventListener("click", () => {
+    const text = inputText.value;
+    if (text) {
+      callApi("fix-grammar", text);
+    }
+  });
+}
 
-translateBtn.addEventListener("click", () => {
-  const text = inputText.value;
-  if (text) {
-    callApi("translate", text);
-  }
-});
+if (translateBtn) {
+  translateBtn.addEventListener("click", () => {
+    const text = inputText.value;
+    if (text) {
+      callApi("translate", text);
+    }
+  });
+}
 
-generateBtn.addEventListener("click", () => {
-  const text = inputText.value;
-  if (text) {
-    callApi("generate", text);
-  }
-});
+// This button only exists on the "PatternGuard" page
+if (generateBtn) {
+  generateBtn.addEventListener("click", () => {
+    const text = inputText.value;
+    if (text) {
+      callApi("generate", text);
+    }
+  });
+}
 
-copyBtn.addEventListener("click", () => {
-  copyToClipboard(outputText.value);
-});
+// This button exists on both pages
+if (copyBtn) {
+  copyBtn.addEventListener("click", () => {
+    copyToClipboard(outputText.value);
+  });
+}
 
 // --- Main API Call Function ---
 async function callApi(endpoint, text) {
-  // NEW: Show loading, hide status
   loadingMessage.style.display = "block";
   statusMessage.style.display = "none";
   outputText.value = ""; // Clear old output
@@ -71,11 +82,9 @@ async function callApi(endpoint, text) {
     outputText.value = data.text.trim();
   } catch (error) {
     console.error("Error:", error);
-    // NEW: Show error in status
     statusMessage.innerText = "Error: " + error.message;
     statusMessage.style.display = "block";
   } finally {
-    // NEW: Hide loading message when done
     loadingMessage.style.display = "none";
   }
 }
@@ -86,7 +95,6 @@ function copyToClipboard(text) {
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      // NEW: Show status message
       statusMessage.innerText = "Copied to clipboard!";
       statusMessage.style.display = "block";
       setTimeout(() => {
@@ -95,7 +103,6 @@ function copyToClipboard(text) {
     })
     .catch((err) => {
       console.error("Failed to copy text: ", err);
-      // NEW: Show error in status
       statusMessage.innerText = "Failed to copy.";
       statusMessage.style.display = "block";
     });
