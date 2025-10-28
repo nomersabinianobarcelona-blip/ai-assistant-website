@@ -1,44 +1,48 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>AI Assistant</title>
-  <link rel="stylesheet" href="style-v2.css">
-</head>
-<body>
-  <div class="container">
-    <h2>✨ AI Assistant</h2>
-    
-    <div class="input-output">
-      <div class="io-box">
-        <label for="input-text">Input Text</label>
-        <textarea id="input-text" rows="8"></textarea>
-      </div>
-      <div class="io-box">
-        <label for="output-text">AI Result</label>
-        <textarea id="output-text" rows="8" readonly></textarea>
-      </div>
-    </div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COD3.ai Assistant</title>
+    <link rel="stylesheet" href="style-v2.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>COD3.ai Assistant</h1>
 
-    <div class="button-group">
-      <button id="summarize-btn">Summarize</button>
-      <button id="fix-btn">Fix Grammar</button>
-      <button id="fix-summarize-btn" class="special-btn">Fix & Summarize</button>
-      <button id="detect-ai-btn" class="warning-btn">Detect AI</button>
+      <div class="textarea-container">
+        <textarea
+          id="input-text"
+          placeholder="Enter your text here (e.g., 'write a python function to find a prime number')..."
+        ></textarea>
+        <textarea
+          id="output-text"
+          placeholder="AI response will appear here..."
+          readonly
+        ></textarea>
+      </div>
+
+      <div class="button-group">
+        <button id="summarize-btn">Summarize</button>
+        <button id="fix-grammar-btn">Fix Grammar</button>
+        <button id="translate-btn">Translate to English</button>
+        <button id="generate-btn">Generate (from prompt)</button>
+        <button id="copy-btn">Copy to Clipboard</button>
+      </div>
+
+      <div class="loading" id="loading-message">Loading...</div>
+      <div class="status" id="status-message"></div>
+
+      <footer>
+        <p>
+          Have suggestions?
+          <a
+            href="mailto:your-email@example.com?subject=COD3.ai Suggestion"
+            >Send us your feedback!</a
+          >
+        </p>
+      </footer>
     </div>
-    
-    <button id="copy-btn">Copy Result</button>
-    
-    <hr>
-    
-    <div class="settings">
-      <h3>Settings</h3>
-      <label for="api-key">Your API Token (Hugging Face):</label>
-      <input type="password" id="api-key" placeholder="Enter your hf_... token">
-      <button id="save-key-btn">Save Key</button>
-      <div id="status"></div>
-    </div>
-    
-  </div>
-  <script src="sidepanel.js"></script>
-</body>
+    <script src="client.js"></script>
+  </body>
 </html>
