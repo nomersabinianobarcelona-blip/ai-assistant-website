@@ -1,0 +1,92 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+  margin: 0;
+  padding: 20px;
+  min-width: 400px;
+}
+
+.main-container {
+  max-width: 700px; /* Larger width for a website */
+  margin: 0 auto; /* Center the container */
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  font-size: 24px;
+  color: #343a40;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+.textarea-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box; /* Important for padding to work correctly */
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #495057;
+  box-shadow: 0 0 0 2px rgba(73, 80, 87, 0.1);
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.button-group button {
+  flex: 1 1 auto; /* Allow buttons to grow and shrink */
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+  background-color: #f1f3f5;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button-group button:hover {
+  background-color: #e9ecef;
+}
+
+#copy-btn {
+  background-color: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+#copy-btn:hover {
+  background-color: #218838;
+}
+
+.status {
+  text-align: center;
+  font-size: 14px;
+  height: 20px; /* Prevents layout jump */
+  line-height: 20px;
+  color: #007bff;
+}
