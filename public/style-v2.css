@@ -89,4 +89,34 @@ textarea:focus {
   height: 20px; /* Prevents layout jump */
   line-height: 20px;
   color: #007bff;
+  display: none; /* Hide by default, show with JS */
+}
+
+/* NEW: Loading message style */
+.loading {
+  text-align: center;
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  color: #6c757d; /* A neutral gray color */
+  display: none; /* Hidden by default */
+}
+
+/* NEW: Footer styles */
+footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
