@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node server.js"
   },
-  "dependencies": {
+"dependencies": {
     "express": "^4.19.2",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "@google/generative-ai": "^0.15.0"
   }
+
 }
