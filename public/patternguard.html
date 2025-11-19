@@ -17,6 +17,16 @@
     <div class="main-container">
       <h1>PatternGuard (Chatbot)</h1>
 
+      <div class="mode-selector">
+        <label
+          ><input type="radio" name="mode" value="student" checked /> Student
+          Mode</label
+        >
+        <label
+          ><input type="radio" name="mode" value="teacher" /> Teacher Mode</label
+        >
+      </div>
+
       <div class="chat-container" id="chat-window">
         <div class="message ai">
           Hello! I am PatternGuard. You can ask me anything.
@@ -30,7 +40,7 @@
           placeholder="Type your message..."
           autocomplete="off"
         />
-        <button type="submit" id="send-button">Send</button>
+        <button type="submit"id="send-button">Send</button>
       </form>
 
       <div class="loading" id="loading-message">Loading...</div>
@@ -43,7 +53,8 @@
             href="mailto:your-email@example.com,dev2@example.com?subject=COD3.ai Suggestion"
             >Send us your feedback!</a
           >
-        </p> </footer>
+        </p>
+      </footer>
     </div>
     <script src="client.js"></script>
   </body>
