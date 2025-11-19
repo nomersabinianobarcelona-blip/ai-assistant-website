@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-// No Google AI needed anymore!
 
 const app = express();
 const port = process.env.PORT || 10000;
@@ -21,7 +20,7 @@ app.get("/patternguard", (req, res) => {
 
 // --- NEW: Mock AI Response Function ---
 // This function pretends to be the AI
-function getMockResponse(endpoint, text) {
+function getMockResponse(endpoint, text, mode = "student") {
   // We add a fake delay to look like it's "thinking"
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -33,7 +32,15 @@ function getMockResponse(endpoint, text) {
       } else if (endpoint === "translate") {
         response = "This is a mock translation. The real AI is not connected.";
       } else if (endpoint === "generate") {
-        response = `This is a mock response to your prompt: "${text}". The real AI is not connected.`;
+        // --- NEW: Smart mock response ---
+        if (mode === "student") {
+          response = `[STUDENT MODE MOCK] You asked about: "${text}". That's a great question! What do you think the first step is?`;
+        } else if (mode === "teacher") {
+          response = `[TEACHER MODE MOCK] Here is a lesson plan for: "${text}".\n\n1. Objective\n2. Materials\n3. Activity`;
+        } else {
+          response = `This is a mock response to your prompt: "${text}". The real AI is not connected.`;
+        }
+        // --- END NEW ---
       }
       resolve(response);
     }, 1000); // 1-second delay
@@ -45,14 +52,17 @@ const apiEndpoints = ["summarize", "fix-grammar", "translate", "generate"];
 
 apiEndpoints.forEach((endpoint) => {
   app.post(`/${endpoint}`, async (req, res) => {
-    const { text } = req.body;
+    // --- NEW: Read text AND mode from the request ---
+    const { text, mode } = req.body;
+    // --- END NEW ---
+
     if (!text) {
       return res.status(400).json({ error: "No text provided" });
     }
 
-    // NEW: We call our mock function instead of Google
+    // NEW: We call our mock function (now with mode)
     try {
-      const aiText = await getMockResponse(endpoint, text);
+      const aiText = await getMockResponse(endpoint, text, mode);
       res.json({ text: aiText });
     } catch (error) {
       console.error(`Error with mock /${endpoint}:`, error);
