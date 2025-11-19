@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-R" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PatternGuard - COD3.ai</title>
     <link rel="stylesheet" href="style-v2.css" />
@@ -15,24 +15,23 @@
     </nav>
 
     <div class="main-container">
-      <h1>PatternGuard</h1>
+      <h1>PatternGuard (Chatbot)</h1>
 
-      <div class="textarea-container">
-        <textarea
-          id="input-text"
-          placeholder="Enter your prompt here..."
-        ></textarea>
-        <textarea
-          id="output-text"
-          placeholder="AI response will appear here..."
-          readonly
-        ></textarea>
+      <div classs="chat-container" id="chat-window">
+        <div class="message ai">
+          Hello! I am PatternGuard. You can ask me anything.
+        </div>
       </div>
 
-      <div class="button-group">
-        <button id="generate-btn">Generate (from prompt)</button>
-        <button id="copy-btn">Copy to Clipboard</button>
-      </div>
+      <form id="chat-form" class="chat-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Type your message..."
+          autocomplete="off"
+        />
+        <button type="submit" id="send-button">Send</button>
+      </form>
 
       <div class="loading" id="loading-message">Loading...</div>
       <div class="status" id="status-message"></div>
@@ -41,7 +40,7 @@
         <p>
           Have suggestions?
           <a
-            href="mailto:25-0134@sgen.edu.ph,25-0232@sgen.edu.ph,25-0257@sgen.edu.ph,25-0061@sgen.edu.ph,25-0108@sgen.edu.ph,25-0027@sgen.edu.ph?subject=COD3.ai Suggestion"
+            href="mailto:your-email@example.com,dev2@example.com?subject=COD3.ai Suggestion"
             >Send us your feedback!</a
           >
         </p>
