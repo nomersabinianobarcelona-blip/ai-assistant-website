@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- SECTION 1: GmAIl Helper Page ---
-// All your old code for the first page is now inside this function
 function setupGmailHelper() {
   const summarizeBtn = document.getElementById("summarize-btn");
   const fixGrammarBtn = document.getElementById("fix-grammar-btn");
@@ -42,7 +41,6 @@ function setupGmailHelper() {
 }
 
 // --- SECTION 2: PatternGuard Page ---
-// All the new code for your chatbot goes here
 function setupPatternGuard() {
   const chatForm = document.getElementById("chat-form");
   const chatInput = document.getElementById("chat-input");
@@ -56,6 +54,12 @@ function setupPatternGuard() {
 
     if (message === "") return; // Don't send empty messages
 
+    // --- NEW: Get the selected mode ---
+    const selectedMode = document.querySelector(
+      'input[name="mode"]:checked'
+    ).value;
+    // --- END NEW ---
+
     // 1. Add user's message to the chat window
     addMessageToChat(message, "user");
     chatInput.value = ""; // Clear the input box
@@ -64,11 +68,12 @@ function setupPatternGuard() {
     showLoading(true);
 
     try {
-      // 3. Send to the server (using our existing 'generate' endpoint)
+      // 3. Send to the server (NOW WITH MODE)
       const response = await fetch("/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: message }),
+        // --- NEW: Send both text and mode ---
+        body: JSON.stringify({ text: message, mode: selectedMode }),
       });
 
       if (!response.ok) {
@@ -151,7 +156,7 @@ function showStatus(message, type = "success") {
   const status = document.getElementById("status-message");
   if (status) {
     status.textContent = message;
-    status.style.color = type === "error" ? "#dc3545" : "#28a745";
+    status.style.color = type === "error" ? "#dc3545" : "##28a745";
     status.style.display = "block";
     setTimeout(() => {
       status.style.display = "none";
