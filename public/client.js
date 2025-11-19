@@ -131,3 +131,42 @@ async function handleApiCall(endpoint, inputEl, outputEl) {
     const data = await response.json();
     outputEl.value = data.text;
   } catch (error) {
+    console.error(`Error with /${endpoint}:`, error);
+    outputEl.value = `Error: ${error.message}`;
+  } finally {
+    showLoading(false);
+  }
+}
+
+// Shows/hides the "Loading..." message
+function showLoading(isLoading) {
+  const loading = document.getElementById("loading-message");
+  if (loading) {
+    loading.style.display = isLoading ? "block" : "none";
+  }
+}
+
+// Shows a status message (like "Copied!")
+function showStatus(message, type = "success") {
+  const status = document.getElementById("status-message");
+  if (status) {
+    status.textContent = message;
+    status.style.color = type === "error" ? "#dc3545" : "#28a745";
+    status.style.display = "block";
+    setTimeout(() => {
+      status.style.display = "none";
+    }, 3000);
+  }
+}
+
+// Copies text to the clipboard
+function copyToClipboard(text) {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      showStatus("Copied to clipboard!");
+    })
+    .catch((err) => {
+      showStatus("Failed to copy.", "error");
+    });
+}
