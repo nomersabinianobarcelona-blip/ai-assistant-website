@@ -1,8 +1,31 @@
 const express = require("express");
 const path = require("path");
+// --- NEW: Import the Google AI SDK ---
+const {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} = require("@google/generative-ai");
 
 const app = express();
 const port = process.env.PORT || 10000;
+
+// --- NEW: Initialize Google AI ---
+const MODEL_NAME = "gemini-1.0-pro"; // A stable, powerful model
+const API_KEY = process.env.GEMINI_API_KEY;
+
+let genAI;
+let model;
+
+if (API_KEY) {
+  genAI = new GoogleGenerativeAI(API_KEY);
+  model = genAI.getGenerativeModel({ model: MODEL_NAME });
+  console.log("Google AI Initialized successfully.");
+} else {
+  console.error(
+    "FATAL ERROR: GEMINI_API_KEY environment variable is not set."
+  );
+}
 
 // --- Middleware ---
 app.use(express.json());
@@ -18,35 +41,85 @@ app.get("/patternguard", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "patternguard.html"));
 });
 
-// --- NEW: Smart Mock AI Response Function ---
-function getMockResponse(endpoint, text, mode = "student", subject = "general") {
-  // We add a fake delay to look like it's "thinking"
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      let response = "";
-      if (endpoint === "summarize") {
-        response = "This is a mock summary of your text. The real AI is not connected.";
-      } else if (endpoint === "fix-grammar") {
-        response = "This is a mock grammar fix. The real AI is not connected.";
-      } else if (endpoint === "translate") {
-        response = "This is a mock translation. The real AI is not connected.";
-      } else if (endpoint === "generate") {
-        
-        // --- NEW: Smart mock response using mode and subject ---
-        const capitalizedSubject = subject.charAt(0).toUpperCase() + subject.slice(1);
-        
-        if (mode === "student") {
-          response = `[MOCK STUDENT | ${capitalizedSubject}] You asked about: "${text}". That's a great question for ${subject}! What do you think is the first step?`;
-        } else if (mode === "teacher") {
-          response = `[MOCK TEACHER | ${capitalizedSubject}] Here is a lesson plan for "${text}" in your ${subject} class.\n\n1. Objective\n2. Materials\n3. Activity`;
-        } else {
-          response = `This is a mock response to your prompt: "${text}". The real AI is not connected.`;
-        }
-        // --- END NEW ---
-      }
-      resolve(response);
-    }, 1000); // 1-second delay
-  });
+// --- NEW: This is the REAL AI Function ---
+async function getRealAIResponse(endpoint, text, mode = "student", subject = "general") {
+  // 1. Check if the AI model is available
+  if (!model) {
+    throw new Error("AI model is not initialized. Check API key.");
+  }
+
+  // 2. Build the "prompt" (the instructions for the AI)
+  let prompt = "";
+  const capitalizedSubject = subject.charAt(0).toUpperCase() + subject.slice(1);
+
+  if (endpoint === "summarize") {
+    prompt = `Summarize this text in a few concise sentences: "${text}"`;
+  } else if (endpoint === "fix-grammar") {
+    prompt = `Correct the grammar and spelling of this text. Only return the corrected text: "${text}"`;
+  } else if (endpoint === "translate") {
+    prompt = `Translate this text to English. Only return the translated text: "${text}"`;
+  } else if (endpoint === "generate") {
+    // This is for our chatbot
+    if (mode === "student") {
+      prompt = `You are a helpful and encouraging tutor. A student is asking about "${text}" in a ${capitalizedSubject} context. Do not give the answer directly. Instead, ask a guiding question to help them think about the first step.`;
+    } else if (mode === "teacher") {
+      prompt = `You are an expert curriculum assistant. A teacher needs a simple lesson plan idea for "${text}" for their ${capitalizedSubject} class. Provide a brief, 3-step lesson plan (Objective, Activity, Assessment).`;
+    }
+  }
+
+  if (prompt === "") {
+    throw new Error("Invalid endpoint or mode.");
+  }
+
+  // 3. Set safety configurations
+  const generationConfig = {
+    temperature: 0.9,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+  };
+
+  const safetySettings = [
+    {
+      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+    {
+      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+      threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    },
+  ];
+
+  // 4. Call the AI
+  try {
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig,
+      safetySettings,
+    });
+
+    const response = result.response;
+    const aiText = response.candidates[0].content.parts[0].text;
+    return aiText;
+
+  } catch (error) {
+    console.error("Error calling Google AI:", error);
+    if (error.message.includes("403")) {
+       throw new Error("API key is not valid or does not have Vertex AI permission.");
+    }
+    if (error.message.includes("API key not valid")) {
+       throw new Error("The API key is invalid. Please check it again.");
+    }
+    throw new Error("The AI service failed to respond.");
+  }
 }
 
 // --- API Endpoints ---
@@ -54,21 +127,19 @@ const apiEndpoints = ["summarize", "fix-grammar", "translate", "generate"];
 
 apiEndpoints.forEach((endpoint) => {
   app.post(`/${endpoint}`, async (req, res) => {
-    // --- NEW: Read text, mode, AND subject from the request ---
     const { text, mode, subject } = req.body;
-    // --- END NEW ---
 
     if (!text) {
       return res.status(400).json({ error: "No text provided" });
     }
 
-    // NEW: We call our mock function (now with mode and subject)
+    // --- NEW: We call the REAL AI function ---
     try {
-      const aiText = await getMockResponse(endpoint, text, mode, subject);
+      const aiText = await getRealAIResponse(endpoint, text, mode, subject);
       res.json({ text: aiText });
     } catch (error) {
-      console.error(`Error with mock /${endpoint}:`, error);
-      res.status(500).json({ error: "Failed to generate mock response." });
+      console.error(`Error with /${endpoint}:`, error.message);
+      res.status(500).json({ error: error.message });
     }
   });
 });
