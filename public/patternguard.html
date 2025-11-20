@@ -1,5 +1,20 @@
-<body id="page-patternguard">
-<div class="main-container">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PatternGuard - COD3.ai</title>
+    <link rel="stylesheet" href="style-v2.css" />
+  </head>
+  <body id="page-patternguard">
+    <nav>
+      <ul>
+        <li class="nav-gmail-helper"><a href="/">GmAIl Helper</a></li>
+        <li class="nav-patternguard"><a href="/patternguard">PatternGuard</a></li>
+      </ul>
+    </nav>
+
+    <div class="main-container">
       <h1>PatternGuard (Chatbot)</h1>
 
       <div class="mode-selector">
@@ -21,5 +36,37 @@
         <button class="subject-tab" data-subject="history">SLGE</button>
         <button class="subject-tab" data-subject="art">Arts</button>
         <button class="subject-tab" data-subject="music">Music</button>
-        </div>
+      </div>
+
       <div class="chat-container" id="chat-window">
+        <div class="message ai">
+          Hello! I am PatternGuard. You can ask me anything.
+        </div>
+      </div>
+
+      <form id="chat-form" class="chat-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Type your message..."
+          autocomplete="off"
+        />
+        <button type="submit" id="send-button">Send</button>
+      </form>
+
+      <div class="loading" id="loading-message">Loading...</div>
+      <div class="status" id="status-message"></div>
+
+      <footer>
+        <p>
+          Have suggestions?
+          <a
+            href="mailto:your-email@example.com,dev2@example.com?subject=COD3.ai Suggestion"
+            >Send us your feedback!</a
+          >
+        </p>
+      </footer>
+    </div>
+    <script src="client.js"></script>
+  </body>
+</html>
