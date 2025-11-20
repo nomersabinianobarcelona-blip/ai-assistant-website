@@ -45,8 +45,31 @@ function setupPatternGuard() {
   const chatForm = document.getElementById("chat-form");
   const chatInput = document.getElementById("chat-input");
   const chatWindow = document.getElementById("chat-window");
+  const subjectTabsContainer = document.querySelector(".subject-tabs");
 
   if (!chatForm) return; // Make sure the elements exist
+
+  // --- NEW: Handle Subject Tab Clicks ---
+  let activeSubject = "general"; // Default subject
+  
+  if (subjectTabsContainer) {
+    subjectTabsContainer.addEventListener("click", (e) => {
+      // Check if a tab button was clicked
+      if (e.target.classList.contains("subject-tab")) {
+        // Remove 'active' class from all tabs
+        document.querySelectorAll(".subject-tab").forEach(tab => {
+          tab.classList.remove("active");
+        });
+        
+        // Add 'active' class to the clicked tab
+        e.target.classList.add("active");
+        
+        // Update the active subject
+        activeSubject = e.target.dataset.subject;
+      }
+    });
+  }
+  // --- END NEW ---
 
   chatForm.addEventListener("submit", async (e) => {
     e.preventDefault(); // Stop the page from reloading
@@ -54,11 +77,10 @@ function setupPatternGuard() {
 
     if (message === "") return; // Don't send empty messages
 
-    // --- NEW: Get the selected mode ---
+    // Get the selected mode
     const selectedMode = document.querySelector(
       'input[name="mode"]:checked'
     ).value;
-    // --- END NEW ---
 
     // 1. Add user's message to the chat window
     addMessageToChat(message, "user");
@@ -68,12 +90,16 @@ function setupPatternGuard() {
     showLoading(true);
 
     try {
-      // 3. Send to the server (NOW WITH MODE)
+      // 3. Send to the server (NOW WITH MODE AND SUBJECT)
       const response = await fetch("/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // --- NEW: Send both text and mode ---
-        body: JSON.stringify({ text: message, mode: selectedMode }),
+        // --- NEW: Send text, mode, and subject ---
+        body: JSON.stringify({ 
+          text: message, 
+          mode: selectedMode,
+          subject: activeSubject // Send the active subject
+        }),
       });
 
       if (!response.ok) {
@@ -156,7 +182,7 @@ function showStatus(message, type = "success") {
   const status = document.getElementById("status-message");
   if (status) {
     status.textContent = message;
-    status.style.color = type === "error" ? "#dc3545" : "##28a745";
+    status.style.color = type === "error" ? "#dc3545" : "#28a745";
     status.style.display = "block";
     setTimeout(() => {
       status.style.display = "none";
