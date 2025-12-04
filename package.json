@@ -1,15 +1,18 @@
 {
   "name": "ai-assistant-server",
   "version": "1.0.0",
-  "description": "Server for my AI assistant app",
+  "description": "A simple Node.js server for the AI Assistant",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-"dependencies": {
-    "express": "^4.19.2",
-    "node-fetch": "^2.7.0",
-    "@google/generative-ai": "^0.15.0"
+  "dependencies": {
+    "express": "^4.18.2",
+    "@google/generative-ai": "^0.12.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
-
 }
