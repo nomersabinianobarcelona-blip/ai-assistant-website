@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 10000;
 
 // --- NEW: Initialize Google AI ---
-const MODEL_NAME = "gemini-pro";
+const MODEL_NAME = "gemini-1.5-flash";
 const API_KEY = process.env.GEMINI_API_KEY;
 
 let genAI;
@@ -148,5 +148,6 @@ apiEndpoints.forEach((endpoint) => {
 app.listen(port, () => {
   console.log(`Your app is listening on port ${port}`);
 });
+
 
 
