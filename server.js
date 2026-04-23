@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 10000;
 
 // --- NEW: Initialize Google AI ---
-const MODEL_NAME = "gemini-1.5-flash";
+const MODEL_NAME = "gemini-1.5-flash-latest";
 const API_KEY = process.env.GEMINI_API_KEY;
 
 let genAI;
